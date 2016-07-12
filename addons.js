@@ -8,19 +8,12 @@
   sigma.utils.pkg('sigma.plugins');
 
   /**
-   * Sigma ActiveState
+   * Simplified version of Sigma ActiveState.
    * =============================
    *
    * @author Sébastien Heymann <seb@linkurio.us> (Linkurious)
-   * @version 0.1
-   */
-
-  var _instances = {};
-
-  /**
-   * Attach methods to the graph to keep indexes updated.
-   * They may be called before the ActiveState constructor is called.
-   * ------------------
+   * @author Thomas Moerman (https://github.com/tmoerman)
+   * @version 0.1.1
    */
 
   /**
@@ -30,6 +23,8 @@
    * @return {sigma.plugins.activeState} The instance itself.
    */
   function CustomActiveState(s) {
+    var self = this;
+
     var _g = s.graph,
         _enableEvents = true,
         _activeNodesIndex = new sigma.utils.map(),
@@ -42,12 +37,15 @@
     sigma.classes.dispatcher.extend(this);
 
     s.bind('kill', function() {
+      self.kill();
+    });
+
+    this.kill = function() {
+      self.unbind();
       _activeNodesIndex = null;
       _activeEdgesIndex = null;
       _g = null;
-    });
-
-
+    };
 
     /**
      * This method will set one or several nodes as 'active', depending on how it
@@ -484,21 +482,7 @@
    * @param {sigma} s The sigma instance.
    */
   sigma.plugins.customActiveState = function(s) {
-    if (! _instances[s.id]) {
-      _instances[s.id] = new CustomActiveState(s)
-    }
-
-    return _instances[s.id]
-  };
-
-  /**
-   *  This function kills the activeState instance.
-   */
-  sigma.plugins.killActiveState = function(s) {
-    if (_instances[s.id] instanceof CustomActiveState) {
-      _instances[s.id].kill();
-      _instances[s.id] = null;
-    }
+    return new CustomActiveState(s);
   };
 
 }).call(this);
