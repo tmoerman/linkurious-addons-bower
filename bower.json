@@ -1,0 +1,23 @@
+{
+  "name": "linkurious-addons-bower",  
+  "description": "A JavaScript library to visualize and interact with graphs.",
+  "main": [
+    "addons.js"],
+  "keywords": [
+    "sigma",
+    "linkurious",
+    "graph"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/Linkurious/linkurious.js",
+  "authors": [
+    "Linkurious SAS (@Linkurious)"
+  ]
+}
